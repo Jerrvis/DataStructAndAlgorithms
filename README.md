@@ -1,6 +1,4 @@
----
-typora-root-url: .assets\README
----
+
 
 # 算法
 
@@ -20,7 +18,7 @@ typora-root-url: .assets\README
 
 编写的五子棋程序中，有存盘退出和续上盘的功能。
 
-![image-20220312171842404](./image-20220312171842404.png)
+![image-20220312171842404](.assets/README/image-20220312171842404.png)
 
 因为该二维数组的很多值是默认值 0, 因此记录了 很多没有意义的数据.-> 
 
@@ -42,7 +40,7 @@ typora-root-url: .assets\README
 
 它能够省去很多重复的数字
 
-![image-20220209095611480](./image-20220209095611480.png)
+![image-20220209095611480](.assets/README/image-20220209095611480.png)
 
 
 
@@ -128,7 +126,7 @@ public class sparseArray {
 
 下面为稀疏数组
 
-![image-20220209102720784](/image-20220209102720784.png)
+![image-20220209102720784](.assets/README/image-20220209102720784.png)
 
 
 
@@ -144,13 +142,13 @@ public class sparseArray {
 
 环形队列，其实是队列尾部和首部相接的结构，初始状态时，head和tail指针分别指向下标为0的位置，如图：
 
-![image-20220317213012300](/image-20220317213012300.png)
+![image-20220317213012300](.assets/README/image-20220317213012300.png)
 
 需要关注：***\*循环队列为空的判断条件是head==tail\**。**
 
 随着新元素入队，head指针保持不边，tail指针往后移动，指向一个空闲位置。同样当有元素出队列时，head指针也会自然往后移动。
 
-![image-20220317213036654](/image-20220317213036654.png)
+![image-20220317213036654](.assets/README/image-20220317213036654.png)
 
 
 
@@ -304,4 +302,6 @@ class CircleArray {
 
 
 [LeetCode](./LeetCode.md)
+
+
 
