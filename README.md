@@ -1,2 +1,0 @@
-# DataStructAndAlgorithms
-Learning DataStructAndAlgorithms
