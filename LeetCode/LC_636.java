@@ -6,8 +6,6 @@ import java.util.List;
 public class LC_636 {
   public static void main (String[] args){
     LC_636 lc = new LC_636();
-    String a = "0:start:0";
-    String[] p = a.split(":");
     String[] name  = {"0:start:0","1:start:2","1:end:5","0:end:6"};
     int[] pp = lc.exclusiveTime(2, Arrays.asList(name));
     for (int o:pp){

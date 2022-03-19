@@ -1,4 +1,4 @@
-package src;
+package src.sparseArray;
 
 public class sparseArray {
   public static void main (String[] args){

@@ -1,9 +1,8 @@
-package src;
+package src.CycleArrayQueue;
 
 import java.util.Scanner;
-import javax.management.RuntimeErrorException;
 
-public class cycleArrayQueue {
+public class CycleArrayQueue {
   public static void main(String[] args) {
     CircleArray Queue = new CircleArray(8);
     char key = ' '; // 接受用户输入
@@ -57,7 +56,7 @@ public class cycleArrayQueue {
       }
 
     }
-
+    scan.close();
   }
 
 }

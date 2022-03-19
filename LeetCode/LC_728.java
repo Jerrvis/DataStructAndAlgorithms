@@ -13,7 +13,7 @@ public class LC_728 {
   }
 
   public List<Integer> selfDividingNumbers(int left, int right) {
-    List<Integer> arr = new ArrayList();
+    List<Integer> arr = new ArrayList<Integer>();
     boolean divSuc = true;
     int target;
     int testNum;

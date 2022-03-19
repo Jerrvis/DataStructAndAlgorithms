@@ -138,19 +138,23 @@ public class sparseArray {
 
 ## 队列
 
+
+
 队列中有一种重要的队列叫做环形队列。
 
 环形队列，其实是队列尾部和首部相接的结构，初始状态时，head和tail指针分别指向下标为0的位置，如图：
 
 ![image-20220317213012300](.assets/README/image-20220317213012300.png)
 
-需要关注：***\*循环队列为空的判断条件是head==tail\**。**
+需要关注：**循环队列为空的判断条件是head==tail。**
 
 随着新元素入队，head指针保持不边，tail指针往后移动，指向一个空闲位置。同样当有元素出队列时，head指针也会自然往后移动。
 
 ![image-20220317213036654](.assets/README/image-20220317213036654.png)
 
 
+
+### 代码
 
 **Java**
 
@@ -292,6 +296,434 @@ class CircleArray {
 }
 
 ```
+
+
+
+***
+
+
+
+## 链表
+
+
+
+如下所示，灰色的分别为头节点和尾部为空的节点，均不存放数据。
+
+arrow为 箭头 指向下一个节点。
+
+![image-20220319161710173](.assets/README/image-20220319161710173.png)
+
+
+
+**插入节点**
+
+如下在2-4之间插入一个3节点
+
+![image-20220319162829038](.assets/README/image-20220319162829038.png)
+
+让2节点箭头指向3节点，3节点箭头指向4
+
+最终变成如下
+
+![image-20220319163048052](.assets/README/image-20220319163048052.png)
+
+
+
+**删除节点**
+
+要删除3节点，则是让2节点箭头直接指向4节点即可，3节点不用管。
+
+![image-20220319163342293](.assets/README/image-20220319163342293.png)
+
+
+
+### 单链表
+
+``` java
+
+class ShipNodesList{
+  // 定义头结点，不要修改
+  private ShipNode head = new ShipNode(0, "", "");
+  
+  //添加节点到尾部
+  public void add(ShipNode newNode){
+    ShipNode temp = head;
+
+    while (true){
+      if(temp.next == null){
+        break;
+      }
+      temp = temp.next; // 记录最后一个为空的节点
+    }
+    temp.next = newNode;
+  }
+
+  // 按照no的顺序添加(插入)节点
+  public void addByNo(ShipNode shipNode){
+    ShipNode temp = head;
+    while (true){
+      if(temp.next == null){
+        temp.next = shipNode;
+        return;
+      }else if (temp.next.no == shipNode.no){
+        throw new RuntimeException("节点 "+shipNode.no+" 已存在,请调用changeNode()函数修改");
+      }else if (temp.next.no > shipNode.no){
+        ShipNode temp2 = temp.next;
+        temp.next = shipNode;
+        shipNode.next = temp2;
+        return;
+      }
+      temp = temp.next;
+    }
+  }
+
+  // 删除 node.no == i 的节点
+  public void deleteNode(int i){
+    ShipNode temp = head;
+    while (true){
+      if (temp.next == null || temp.next.no > i){ // 判断为null必须放在前面
+        throw new RuntimeException("链表中不存在节点 "+ i);
+      }else if(temp.next.no == i) {
+        temp.next = temp.next.next;
+        return;
+      }
+      temp = temp.next;
+    }
+  }
+
+  // 修改节点数据
+  public void changeNode(int i, String sName, String sClassName){
+    ShipNode temp = head;
+    while (true){
+      if (temp.next == null || temp.next.no > i){ // 判断为null必须放在前面
+        throw new RuntimeException("链表中不存在该节点 " + i);
+      }else if(temp.next.no == i) {
+        temp = temp.next;
+        temp.name = sName;
+        temp.className = sClassName;
+        System.out.println("修改成功：" + temp.toString());
+        return;
+      }
+      temp = temp.next;
+    }
+  }
+
+  // 显示链表
+  public void showList(){
+    // 
+    if(head.next == null){
+      System.out.println("链表为空");
+      return;
+    }
+    ShipNode temp = head;
+    while (true){
+      if (temp == null){ 
+        break;
+      }
+      System.out.println(temp);
+      temp = temp.next;
+    }
+
+  }
+}
+
+// 定义单个节点
+class ShipNode{
+  public int no; // 节点序号
+  public String name; // data数据
+  public String className; // data数据
+  public ShipNode next; // 指向下一个节点
+
+  //构造器
+  public ShipNode(int sNo, String sName, String sClassName){
+    this.no = sNo;
+    this.name = sName;
+    this.className = sClassName;
+  }
+
+  // 添加toString方法
+  @Override
+  public String toString(){
+    String nextStr = next == null ? "null" : "" + next.no; // 空则输出null  否则输出号码
+    return "ShipNode [node=" + no + ", className=" + className + ", name=" + name + ", next=" + nextStr + "]";
+  }
+}
+```
+
+
+
+### 双向链表
+
+链表有头节点和尾节点，每个节点有prev arrow(指向上一个节点)、next arrow(指向下一个节点)
+
+``` java
+class ShipNodesList{
+  // 定义头结点，不要修改
+  private ShipNode head = new ShipNode(0, "", "");
+  
+  //添加节点到尾部
+  public void add(ShipNode newNode){
+    ShipNode temp = head;
+
+    while (true){
+      if(temp.next == null){
+        break;
+      }
+      temp = temp.next; // 记录最后一个为空的节点
+    }
+    newNode.prev = temp;
+    temp.next = newNode;
+  }
+
+  // 按照no的顺序添加(插入)节点
+  public void addByNo(ShipNode shipNode){
+    ShipNode temp = head;
+    while (true){
+      if(temp.next == null){
+        temp.next = shipNode;
+        shipNode.prev = temp;
+        return;
+      }else if (temp.next.no == shipNode.no){
+        throw new RuntimeException("节点 "+shipNode.no+" 已存在,请调用changeNode()函数修改");
+      }else if (temp.next.no > shipNode.no){
+        ShipNode temp2 = temp.next;
+        temp.next = shipNode;
+        shipNode.next = temp2;
+
+        temp2.prev = shipNode;
+        shipNode.prev = temp;
+        return;
+      }
+      temp = temp.next;
+    }
+  }
+
+  // 删除 node.no == i 的节点
+  public void deleteNode(int i){
+    ShipNode temp = head;
+    while (true){
+      if (temp.next == null || temp.next.no > i){ // 判断为null必须放在前面
+        throw new RuntimeException("链表中不存在节点 "+ i);
+      }else if(temp.next.no == i) {
+        temp.next = temp.next.next;
+        temp.next.prev = temp;
+        return;
+      }
+      temp = temp.next;
+    }
+  }
+
+  // 修改节点数据
+  public void changeNode(int i, String sName, String sClassName){
+    ShipNode temp = head;
+    while (true){
+      if (temp.next == null || temp.next.no > i){ // 判断为null必须放在前面
+        throw new RuntimeException("链表中不存在该节点 " + i);
+      }else if(temp.next.no == i) {
+        temp = temp.next;
+        temp.name = sName;
+        temp.className = sClassName;
+        System.out.println("修改成功：" + temp.toString());
+        return;
+      }
+      temp = temp.next;
+    }
+  }
+
+  // 显示链表
+  public void showList(){
+    // 
+    if(head.next == null){
+      System.out.println("链表为空");
+      return;
+    }
+    ShipNode temp = head;
+    while (true){
+      if (temp == null){ 
+        break;
+      }
+      System.out.println(temp);
+      temp = temp.next;
+    }
+
+  }
+}
+
+// 定义单个节点
+class ShipNode{
+  public int no;
+  public String name;
+  public String className;
+  public ShipNode prev;
+  public ShipNode next;
+
+  //构造器
+  public ShipNode(int sNo, String sName, String sClassName){
+    this.no = sNo;
+    this.name = sName;
+    this.className = sClassName;
+  }
+
+  // 添加toString方法
+  @Override
+  public String toString(){
+    String prevStr = prev == null ? "null" : "" + prev.no;
+    String nextStr = next == null ? "null" : "" + next.no; // 空则输出null  否则输出号码
+    return "ShipNode [node=" + no + ", prev="+ prevStr + ", className=" + className + ", name=" + name + ", next=" + nextStr + "]";
+  }
+}
+```
+
+
+
+
+
+
+
+### 环形双向链表
+
+链表只有一个头节点(head)作为遍历的标记，尾部节点next arrow 指向头节点(head)，头节点 prev arrow指向 尾部节点
+
+``` java
+class ShipNodesList{
+  // 定义头结点，不要修改
+  private ShipNode head = new ShipNode(0, "", "");
+  
+  //添加节点到尾部
+  public void add(ShipNode newNode){
+    if(head.next == null){
+      newNode.prev = head;
+      newNode.next = head;
+      head.next = newNode;
+      head.prev = newNode;
+      return;
+    }
+    ShipNode temp = head.prev;
+    newNode.prev = temp;
+    newNode.next = head;
+    temp.next = newNode;
+    head.prev = newNode;
+    return;
+  }
+
+  // 按照no的顺序添加(插入)节点
+  public void addByNo(ShipNode shipNode){
+    ShipNode temp = head;
+    while (true){
+      if (temp.next == null){
+        temp.next = shipNode;
+        shipNode.prev = temp;
+
+        shipNode.next = temp;
+        temp.prev = shipNode;
+        return;
+      }
+      if(temp.next.no == 0){
+        ShipNode temp2 = temp.next;
+        temp.next = shipNode;
+        shipNode.prev = temp;
+
+        shipNode.next = temp2;
+        temp2.prev = shipNode;
+        return;
+      }else if (temp.next.no == shipNode.no){
+        throw new RuntimeException("节点 "+shipNode.no+" 已存在,请调用changeNode()函数修改");
+      }else if (temp.next.no > shipNode.no){
+        ShipNode temp2 = temp.next;
+        temp.next = shipNode;
+        shipNode.prev = temp;
+
+        shipNode.next = temp2;
+        temp2.prev = shipNode;
+        return;
+      }
+      temp = temp.next;
+    }
+  }
+
+  // 删除 node.no == i 的节点
+  public void deleteNode(int i){
+    ShipNode temp = head;
+    while (true){
+      if (temp.next.no == 0 || temp.next.no > i){ // 判断为null必须放在前面
+        throw new RuntimeException("链表中不存在节点 "+ i);
+      }else if(temp.next.no == i) {
+        if (temp.prev.no == i ){ // 只剩头节点与另一节点
+          temp.next = null;
+          temp.prev = null;
+          return;
+        }
+        temp.next = temp.next.next;
+        temp.next.prev = temp;
+        return;
+      }
+      temp = temp.next;
+    }
+  }
+
+  // 修改节点数据
+  public void changeNode(int i, String sName, String sClassName){
+    ShipNode temp = head;
+    while (true){
+      if (temp.next.no == 0 || temp.next.no > i){ // 判断为null必须放在前面
+        throw new RuntimeException("链表中不存在该节点 " + i);
+      }else if(temp.next.no == i) {
+        temp = temp.next;
+        temp.name = sName;
+        temp.className = sClassName;
+        System.out.println("修改成功：" + temp.toString());
+        return;
+      }
+      temp = temp.next;
+    }
+  }
+
+  // 显示链表
+  public void showList(){
+    // 
+    if(head.next == null){
+      System.out.println("链表为空");
+      return;
+    }
+    System.out.println(head);
+    ShipNode temp = head.next;
+    while (true){
+      if (temp.no == 0){ 
+        break;
+      }
+      System.out.println(temp);
+      temp = temp.next;
+    }
+
+  }
+}
+
+// 定义单个节点
+class ShipNode{
+  public int no;
+  public String name;
+  public String className;
+  public ShipNode prev;
+  public ShipNode next;
+
+  //构造器
+  public ShipNode(int sNo, String sName, String sClassName){
+    this.no = sNo;
+    this.name = sName;
+    this.className = sClassName;
+  }
+
+  // 添加toString方法
+  @Override
+  public String toString(){
+    return "ShipNode [node=" + no + ", prev="+ prev.no + ", className=" + className + ", name=" + name + ", next=" + next.no + "]";
+  }
+}
+```
+
+
+
+
 
 
 
