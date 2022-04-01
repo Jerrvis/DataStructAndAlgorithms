@@ -1,6 +1,6 @@
-package src.SingleLinked;
+package src.Linked.DoubleLinked;
 
-public class SingleLinked {
+public class DoubleLinked {
   public static void main (String[] args){
     ShipNode ship1 = new ShipNode(1564, "Laffey", "Benson");
     ShipNode ship2 = new ShipNode(74362, "Shoukaku", "AB5");
@@ -11,8 +11,10 @@ public class SingleLinked {
     shipList.addByNo(ship3);
     shipList.addByNo(ship4);
     shipList.addByNo(ship2);
-    shipList.deleteNode(35638);
+    shipList.deleteNode(844);
     shipList.showList();
+
+    shipList.changeNode(1564, "Kronshtadt", "Kron");
   }
 }
 
@@ -31,6 +33,7 @@ class ShipNodesList{
       }
       temp = temp.next; // 记录最后一个为空的节点
     }
+    newNode.prev = temp;
     temp.next = newNode;
   }
 
@@ -40,6 +43,7 @@ class ShipNodesList{
     while (true){
       if(temp.next == null){
         temp.next = shipNode;
+        shipNode.prev = temp;
         return;
       }else if (temp.next.no == shipNode.no){
         throw new RuntimeException("节点 "+shipNode.no+" 已存在,请调用changeNode()函数修改");
@@ -47,6 +51,9 @@ class ShipNodesList{
         ShipNode temp2 = temp.next;
         temp.next = shipNode;
         shipNode.next = temp2;
+
+        temp2.prev = shipNode;
+        shipNode.prev = temp;
         return;
       }
       temp = temp.next;
@@ -61,6 +68,7 @@ class ShipNodesList{
         throw new RuntimeException("链表中不存在节点 "+ i);
       }else if(temp.next.no == i) {
         temp.next = temp.next.next;
+        temp.next.prev = temp;
         return;
       }
       temp = temp.next;
@@ -108,6 +116,7 @@ class ShipNode{
   public int no;
   public String name;
   public String className;
+  public ShipNode prev;
   public ShipNode next;
 
   //构造器
@@ -120,7 +129,8 @@ class ShipNode{
   // 添加toString方法
   @Override
   public String toString(){
+    String prevStr = prev == null ? "null" : "" + prev.no;
     String nextStr = next == null ? "null" : "" + next.no; // 空则输出null  否则输出号码
-    return "ShipNode [node=" + no + ", className=" + className + ", name=" + name + ", next=" + nextStr + "]";
+    return "ShipNode [node=" + no + ", prev="+ prevStr + ", className=" + className + ", name=" + name + ", next=" + nextStr + "]";
   }
 }

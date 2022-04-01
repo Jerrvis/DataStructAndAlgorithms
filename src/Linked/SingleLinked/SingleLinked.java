@@ -1,7 +1,6 @@
-package src.CycleDoubleLinked;
+package src.Linked.SingleLinked;
 
-
-public class CycleDoubleLinked {
+public class SingleLinked {
   public static void main (String[] args){
     ShipNode ship1 = new ShipNode(1564, "Laffey", "Benson");
     ShipNode ship2 = new ShipNode(74362, "Shoukaku", "AB5");
@@ -12,10 +11,8 @@ public class CycleDoubleLinked {
     shipList.addByNo(ship3);
     shipList.addByNo(ship4);
     shipList.addByNo(ship2);
-    shipList.deleteNode(844);
+    shipList.deleteNode(35638);
     shipList.showList();
-
-    shipList.changeNode(1564, "Kronshtadt", "Kron");
   }
 }
 
@@ -26,50 +23,30 @@ class ShipNodesList{
   
   //添加节点到尾部
   public void add(ShipNode newNode){
-    if(head.next == null){
-      newNode.prev = head;
-      newNode.next = head;
-      head.next = newNode;
-      head.prev = newNode;
-      return;
+    ShipNode temp = head;
+
+    while (true){
+      if(temp.next == null){
+        break;
+      }
+      temp = temp.next; // 记录最后一个为空的节点
     }
-    ShipNode temp = head.prev;
-    newNode.prev = temp;
-    newNode.next = head;
     temp.next = newNode;
-    head.prev = newNode;
-    return;
   }
 
   // 按照no的顺序添加(插入)节点
   public void addByNo(ShipNode shipNode){
     ShipNode temp = head;
     while (true){
-      if (temp.next == null){
+      if(temp.next == null){
         temp.next = shipNode;
-        shipNode.prev = temp;
-
-        shipNode.next = temp;
-        temp.prev = shipNode;
-        return;
-      }
-      if(temp.next.no == 0){
-        ShipNode temp2 = temp.next;
-        temp.next = shipNode;
-        shipNode.prev = temp;
-
-        shipNode.next = temp2;
-        temp2.prev = shipNode;
         return;
       }else if (temp.next.no == shipNode.no){
         throw new RuntimeException("节点 "+shipNode.no+" 已存在,请调用changeNode()函数修改");
       }else if (temp.next.no > shipNode.no){
         ShipNode temp2 = temp.next;
         temp.next = shipNode;
-        shipNode.prev = temp;
-
         shipNode.next = temp2;
-        temp2.prev = shipNode;
         return;
       }
       temp = temp.next;
@@ -80,16 +57,10 @@ class ShipNodesList{
   public void deleteNode(int i){
     ShipNode temp = head;
     while (true){
-      if (temp.next.no == 0 || temp.next.no > i){ // 判断为null必须放在前面
+      if (temp.next == null || temp.next.no > i){ // 判断为null必须放在前面
         throw new RuntimeException("链表中不存在节点 "+ i);
       }else if(temp.next.no == i) {
-        if (temp.prev.no == i ){ // 只剩头节点与另一节点
-          temp.next = null;
-          temp.prev = null;
-          return;
-        }
         temp.next = temp.next.next;
-        temp.next.prev = temp;
         return;
       }
       temp = temp.next;
@@ -100,7 +71,7 @@ class ShipNodesList{
   public void changeNode(int i, String sName, String sClassName){
     ShipNode temp = head;
     while (true){
-      if (temp.next.no == 0 || temp.next.no > i){ // 判断为null必须放在前面
+      if (temp.next == null || temp.next.no > i){ // 判断为null必须放在前面
         throw new RuntimeException("链表中不存在该节点 " + i);
       }else if(temp.next.no == i) {
         temp = temp.next;
@@ -120,10 +91,9 @@ class ShipNodesList{
       System.out.println("链表为空");
       return;
     }
-    System.out.println(head);
-    ShipNode temp = head.next;
+    ShipNode temp = head;
     while (true){
-      if (temp.no == 0){ 
+      if (temp == null){ 
         break;
       }
       System.out.println(temp);
@@ -138,7 +108,6 @@ class ShipNode{
   public int no;
   public String name;
   public String className;
-  public ShipNode prev;
   public ShipNode next;
 
   //构造器
@@ -151,6 +120,7 @@ class ShipNode{
   // 添加toString方法
   @Override
   public String toString(){
-    return "ShipNode [node=" + no + ", prev="+ prev.no + ", className=" + className + ", name=" + name + ", next=" + next.no + "]";
+    String nextStr = next == null ? "null" : "" + next.no; // 空则输出null  否则输出号码
+    return "ShipNode [node=" + no + ", className=" + className + ", name=" + name + ", next=" + nextStr + "]";
   }
 }
