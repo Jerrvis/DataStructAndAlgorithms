@@ -168,4 +168,19 @@ class ArrayStack {
       return -1;
     }
   }
+
+  // get top
+  public int getTop(){
+    return top;
+  }
+  
+  // 是否为括号
+  public boolean isBracket(char val) {
+    return val == '(' || val == ')';
+  }
+
+  // 是否为数字
+  public boolean isNumber(char val) {
+    return 48 <= val && val < 58;
+  }
 }
