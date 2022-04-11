@@ -1,4 +1,4 @@
-package src.Stack;
+package src.Stack.calculator;
 
 public class calculator {
 

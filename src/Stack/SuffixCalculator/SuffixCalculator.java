@@ -1,4 +1,4 @@
-package src.Stack;
+package src.Stack.SuffixCalculator;
 
 import java.util.ArrayList;
 import java.util.List;
