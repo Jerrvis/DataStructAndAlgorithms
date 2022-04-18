@@ -2,7 +2,57 @@
 
 # 算法
 
+## 时间复杂度
 
+度量一个程序**执行时间**的两种方法
+
+1) 事后统计的方法
+这种方法可行, 但是有两个问题：一是要想对设计的算法的运行性能进行评测，需要实际运行该程序；二是所得时间的统计量依赖于计算机的硬件、软件等环境因素, 这种方式，要在同一台计算机的相同状态下运行，才能比较那个算法速度更快。
+2) 事前估算的方法
+通过分析某个算法的 时间复杂度来判断哪个算法更优.
+
+
+
+### 时间频度
+
+时间频度：一个算法花费的时间与算法中语句的执行次数成正比例，哪个算法中语句执行次数多，它花费时间就多。 一个算法中的语句执行次数称为语句频度或时间频度。记为 T(n)。[举例说明]
+
+
+
+
+
+``` java
+int sum = 0;
+int end = 100;
+for (int i = 0; i < end ; i++){
+    end += sum;
+} 
+// 这个算法时间频度为  T(n) = n+1
+/* ==================== */
+
+int sum = (1+100)*50/2; 
+// 这个算法的时间频度为 T(n) = 1
+```
+
+
+
+根据不同的算法我们可以得出不同的时间频度
+
+如双层 for 循环为 T(n) = n^2 +n +1
+
+
+
+算法比较的时候我们优先比较 最大次方的大小 如 6n^2+23n  与 2n^3+6n
+
+我们认为 6n^2 算法更优(忽略低次方 23n 与 6n)
+
+相同次方的时候 再比较系数 如 6n^2+7n 与 2n^2+17n
+
+我们认为 2n^2 更优(忽略低次方 7n 与 17n)
+
+
+
+***
 
 ## 递归
 
@@ -91,6 +141,213 @@
 **代码实现**
 
 [八皇后回溯算法](src/Recursion/EightQueenTest.java)
+
+
+
+
+
+***
+
+
+
+## 排序算法
+
+排序算法是算法中常见的，它有多种实现方法
+
+
+
+### 冒泡排序
+
+冒泡排序（Bubble Sorting）的基本思想是：通过对待排序序列从前向后（从下标较小的元素开始）, 依次比较相邻元素的值，若发现逆序则交换，使值较大的元素逐渐从前移向后部，就象水底下的气泡一样逐渐向上冒。
+
+优化：
+因为排序的过程中，各元素不断接近自己的位置， 如果一趟比较下来没有进行过交换 ， 就说明序列有序，因此要在排序过程中设置一个标志 flag 判断元素是否进行过交换。从而减少不必要的比较。(这里说的优化，可以在冒泡排序写好后，在进行)
+
+
+
+``` java
+public class Bubble{
+  public static int[] sort(int[] arr){
+    int temp;
+    // i 为最小待放入的较小的数字的位置
+    for (int i = 0; i < arr.length; i++) {
+      for (int j = i + 1; j < arr.length; j++) {
+        if(arr[i] > arr[j]){
+            temp = arr[i];
+            arr[i] = arr[j];
+            arr[j] = temp;
+        }
+      }
+    }
+    return arr;
+  }
+}
+```
+
+
+
+
+
+### 选择排序
+
+选择排序（select sorting）也是一种简单的排序方法。它的基本思想是：
+
+第一次从 ```arr[0]~arr[n-1]```中选取最小值，与 ```arr[0]```交换，
+
+第二次从 ```arr[1]~arr[n-1]```中选取最小值，与```arr[1]```交换，
+
+第三次从 ```arr[2]~arr[n-1]```中选取最小值，与 ```arr[2]```交换，…，第 i 次从 ```arr[i-1]~arr[n-1]```中选取最小值，与 ```arr[i-1]```交换，
+
+…, 
+
+第 n-1 次从 ```arr[n-2]~arr[n-1]```中选取最小值，与``` arr[n-2]```交换，
+
+总共通过 n-1 次，得到一个按排序码从小到大排列的有序序列，
+
+优化：**每次可以同时选择最大与最小值**
+
+
+
+``` java
+public static int[] sort(int[] arr){
+    int min;
+    int minIndex;
+    int temp;
+
+    for (int i = 0; i < arr.length; i++) {
+      min = arr[i];
+      minIndex = i;
+
+      // 查找最小值
+      for (int j = i; j < arr.length; j++) {
+        if(arr[j] < min){
+          min = arr[j];
+          minIndex = j;
+        }
+      }
+      // 最小交换
+      temp = arr[i];
+      arr[i] = min;
+      arr[minIndex] = temp;
+    }
+    return arr;
+  }
+
+  public static int[] doubleSort(int[] arr){
+    int max;
+    int maxIndex;
+    int min;
+    int minIndex;
+    int temp;
+
+    for (int i = 0; i <= arr.length - i ; i++) {
+      max = arr[i];
+      maxIndex = i;
+      min = arr[i];
+      minIndex = i;
+
+      for (int j = i; j < arr.length - i; j++) {
+        if(arr[j] < min){
+          min = arr[j];
+          minIndex = j;
+        }
+        if(arr[j] > max){
+          max = arr[j];
+          maxIndex = j;
+        }
+      }
+      // 最小交换
+      temp = arr[i];
+      arr[i] = min;
+      arr[minIndex] = temp;
+      // 最大交换
+      temp = arr[arr.length - 1 - i];
+      arr[arr.length - 1 - i] = max;
+      arr[maxIndex] = temp;
+    }
+
+    return arr;
+  }
+```
+
+
+
+
+
+
+
+### 插入排序
+
+插入排序（Insertion Sorting）的基本思想是：把 把 n 个待排序的元素看成为一个有序表和一个无序表，开始时 有序表中只包含一个元素，无序表中包含有 n-1 个元素，排序过程中每次从无序表中取出第一个元素，把它的排序码依次与有序表元素的排序码进行比较，将它插入到有序表中的适当位置，使之成为新的有序表。
+
+
+
+``` java
+public class Insertion {
+  public static int[] sort(int[] arr){
+    int insertVal;
+    int insertIndex;
+
+    for (int i = 1; i < arr.length; i++) {
+      // 待插入的数值
+      insertVal = arr[i];
+      insertIndex = i - 1;
+      while (insertIndex >= 0 && insertVal < arr[insertIndex] ){
+        arr[insertIndex + 1] = arr[insertIndex];
+        insertIndex--;
+      }
+      arr[insertIndex + 1] = insertVal;
+    }
+
+    return arr;
+  }
+}
+```
+
+
+
+
+
+### 希尔排序
+
+希尔排序是希尔（Donald Shell）于 1959 年提出的一种排序算法。希尔排序也是一种 插入排序，它是简单插入排序经过改进之后的一个 更高效的版本，也称为 缩小增量排序。
+
+希尔排序是把记录按下标的一定增量分组，对每组使用直接插入排序算法排序；随着增量逐渐减少，每组包含的关键词越来越多， 当增量减至 1 时，整个文件恰被分成一组，算法便终止
+
+图示如下
+
+![image-20220418180638943](.assets/README/image-20220418180638943.png)
+
+
+
+``` java
+public class Shell {
+  public static int[] sort(int[] arr){
+    int gap = arr.length/2;
+    int insertVal;
+    int insertIndex;
+
+    while (gap >= 1 ){
+      for (int i = gap; i < arr.length; i+=gap) {
+        insertVal = arr[i];
+        insertIndex = i - gap;
+        while (insertIndex >= 0 && insertVal < arr[insertIndex]){
+          arr[insertIndex + gap] = arr[insertIndex];
+          insertIndex -= gap;
+        }
+        arr[insertIndex + gap] = insertVal;
+      }
+      gap = gap/2;
+    }
+
+    return arr;
+  }
+}
+```
+
+
+
+
 
 ***
 
