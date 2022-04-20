@@ -3,14 +3,14 @@ package src.Sort;
 
 public class sortTest {
   public static void main (String[] args){
-    int[] arr = new int[10];
+    int[] arr = new int[7];
     
     for (int i = 0; i < arr.length; i++) {
-      arr[i] = (int)(Math.random() * 10000); 
+      arr[i] = (int)(Math.random() * 1000); 
     }
 
     printArr(arr);
-    arr = Shell.sort(arr);
+    arr = Quick.sort(arr);
     printArr(arr);
   }
 

@@ -347,7 +347,127 @@ public class Shell {
 
 
 
+### 快速排序
 
+快速排序（Quicksort）是对 冒泡排序的一种改进。基本思想是：通过一趟排序将要排序的数据分割成独立的两部分，其中一部分的所有数据都比另外一部分的所有数据都要小，然后再按此方法对这两部分数据分别进行快速排序， 整个排序过程可以递归进行，以此达到整个数据变成有序序列
+
+
+
+**分析**
+
+如下为待排序数组 arr ， 我们按照从大到小给他们排序
+
+![image-20220420165422983](.assets/README/image-20220420165422983.png)
+
+
+
+1. 设置左右边界(本轮待排序的下标) ``` l = 0  ;  r  = 6; ``` 作为指针
+
+   ``` pivot = arr[l] ``` 为中间值，开始循环
+
+![image-20220420165554003](.assets/README/image-20220420165554003.png)
+
+
+
+2. 此时 ```arr[l] ``` 为待插入的空值，从右边 r 开始寻找 r 满足 ``` arr[r] > pivot ```
+
+   显然 ```r=6 ```并不是 因此 ``` r-- ``` 直到满足  ``` arr[r] > pivot ```
+
+   
+
+![image-20220420170228558](.assets/README/image-20220420170228558.png)
+
+3. 当 ``` r=5 ``` 时成功满足了  ``` arr[r] > pivot ``` 此时把  ``` arr[r] ``` 插入到 ``` l=0``` 的位置（l 为空位）
+
+   
+
+![image-20220420170557008](.assets/README/image-20220420170557008.png)
+
+4. 插入完成后  ``` arr[r] ``` 取代 ``` arr[l] ``` 作为空位，此时从左边 l 开始寻找 l 满足 ``` arr[l] < pivot ``` 显然 ``` l=0 ``` 并不是 因此 ``` l-- ``` 直到满足 ``` arr[l] < pivot ```
+
+
+
+![image-20220420171035264](.assets/README/image-20220420171035264.png)
+
+5. 当 ``` l=3 ``` 时成功满足了  ``` arr[;] < pivot ``` 此时把  ``` arr[l] ``` 插入到 ``` r=5``` 的位置（r 为空位）
+
+
+
+![image-20220420171142425](.assets/README/image-20220420171142425.png)
+
+6. 插入完成后  ``` arr[l] ``` 取代 ``` arr[r] ``` 作为空位，此时从右边 r 开始寻找 r 满足 ``` arr[r] > pivot ``` 显然 ``` r=5 ``` 并不是 因此 ``` r-- ``` 直到满足 ``` arr[r] > pivot ```
+
+
+
+![image-20220420171317046](.assets/README/image-20220420171317046.png)
+
+7. 当 ``` l == r ``` 时，退出循环 当前空位为 r 即是 pivot 待 插入的空位，我们将pivot 插入 r = 3 后得到，此时第一轮的排序完成，中间值 658 左边均比 658 大，右边均比 658 小
+
+![image-20220420172320977](.assets/README/image-20220420172320977.png)
+
+8. 这时我们从把数组按照下标分成(0-2) 和 (4-6) 两部分从上面第1步开始继续递归(``` l = 0; r = 2 ``` 与 ``` l = 4; r = 6 ```) ，如果 **r/l** 的左右某一边的数字 <2，我们认为这一边的排序完成，无需递归。
+
+**代码如下**
+
+``` java
+package src.Sort;
+
+public class Quick {
+  public static int[] sort(int[] arr) {
+    int left = 0;
+    int right = arr.length - 1;
+    arr = quicksort(arr, left, right);
+    return arr;
+  }
+
+  public static int[] quicksort(int[] arr, int left, int right) {
+    int l = left;
+    int r = right;
+    // 中间值 l为空位
+    int pivot = arr[left];
+
+    while (l < r) {
+      // 寻找arr[r] < pivot 插入到空位 l
+      while (l < r && arr[r] < pivot) {
+        r -= 1;
+      }
+      // 交换， r 为空位
+      if (l < r) {
+        arr[l] = arr[r];
+      }
+      // 寻找arr[l] > pivot 插入到空位 r
+      while (l < r && arr[l] > pivot) {
+        l += 1;
+      }
+      // 交换， r 为空位
+      if (l < r) {
+        arr[r] = arr[l];
+      }
+    }
+    // r==l 时这里为 pivot 的位置
+    arr[r] = pivot;
+
+    if (r > left + 1) {
+      // r左边有两个空位时继续排序
+      arr = quicksort(arr, left, r - 1);
+    }
+    if (r < right - 1) {
+      // r右边有两个空位时继续排序
+      arr = quicksort(arr, r + 1, right);
+    }
+    return arr;
+  }
+}
+
+```
+
+
+
+
+
+
+
+ 
 
 ***
 
