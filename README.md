@@ -154,6 +154,8 @@ int sum = (1+100)*50/2;
 
 排序算法是算法中常见的，它有多种实现方法
 
+源码经过封装放在 [排序算法源码](./src/Sort)
+
 
 
 ### 冒泡排序
@@ -462,6 +464,147 @@ public class Quick {
 ```
 
 
+
+***
+
+### 归并排序
+
+归并排序（MERGE-SORT）是利用归并的思想实现的排序方法，该算法采用经典的 分治 （divide-and-conquer ）策略（分治法将问题分(divide)成一些 小的问题然后递归求解，而治(conquer)的阶段则将分的阶段得到的各答案"修补"在一起，即分而治之)。
+
+``` java
+package src.Sort;
+
+public class Metget {
+  public static int[] sort(int[] arr) {
+    int[] temp = new int[arr.length];
+    int left = 0;
+    int right = arr.length - 1;
+    divide(arr, left, right, temp);
+    return arr;
+  }
+
+  public static void divide(int[] arr, int left, int right, int[] temp) {
+    if (right - left >= 1) { // num数量大于1继续分
+      int mid = (left + right) / 2;
+      // 左边继续分
+      divide(arr, left, mid, temp);
+      // 右边继续分
+      divide(arr, mid + 1, right, temp);
+      arr = conquer(arr, left, mid, right, temp);
+    }
+  }
+
+  /**
+   * 
+   * @param arr   排序的原始数组
+   * @param left  左边开始有序序列的初始索引
+   * @param mid   中间索引
+   * @param right 右边索引
+   * @param temp  临时数组
+   * @return
+   */
+  public static int[] conquer(int[] arr, int left, int mid, int right, int[] temp) {
+    int i = left;
+    int j = mid + 1;
+    int t = 0; // 临时数组待放入的索引
+
+    // 左右两边数据放入右边，直到左右两边有一边处理完毕为止
+    while (i <= mid && j <= right) {
+      if (arr[i] < arr[j]) {
+        temp[t] = arr[i];
+        t++;
+        i++;
+      } else {
+        temp[t] = arr[j];
+        t++;
+        j++;
+      }
+    }
+    // 处理未添加的某一边
+    while (i <= mid) {
+      temp[t] = arr[i];
+      t++;
+      i++;
+    }
+    while (j <= right) {
+      temp[t] = arr[j];
+      t++;
+      j++;
+    }
+    // 将temp的到的值覆盖到数组中
+    t = 0;
+    int tempLeft = left;
+    while (tempLeft <= right) {
+      arr[tempLeft] = temp[t];
+      tempLeft++;
+      t++;
+    }
+    return arr;
+  }
+}
+
+```
+
+
+
+***
+
+
+
+### 基数排序
+
+将所有待比较数值统一为同样的数位长度，数位较短的数前面补零。然后，从最低位开始，依次进行一次排序。这样从最低位排序一直到最高位排序完成以后, 数列就变成一个有序序列。
+
+
+
+``` java
+package src.Sort;
+
+public class Redix {
+  public static int[] sort(int[] arr) {
+    redix(arr, 10);
+    return arr;
+  }
+
+  /**
+   * 
+   * @param arr
+   * @param base 求个位 base = 10, 求十位 base = 100
+   */
+  public static void redix(int[] arr, int base) {
+    // 10个桶
+    int[][] bucket = new int[10][arr.length];
+    // 记录每个桶里的数据个数
+    int[] bucketNum = new int[10];
+
+    // 分配数据到桶里
+    for (int i = 0; i < arr.length; i++) {
+      int num = arr[i] % base * 10 / base;
+      bucket[num][bucketNum[num]] = arr[i];
+      bucketNum[num]++;
+    }
+
+    // 把桶内的数据插回到数组中
+    int index = 0;
+    for (int i = 0; i < bucketNum.length; i++) {
+      if (bucketNum[i] != 0) {
+        for (int j = 0; j < bucketNum[i]; j++) {
+          arr[index] = bucket[i][j];
+          index++;
+        }
+      }
+    }
+
+    // 当所有数据都在第1个桶时 排序完成
+    if (bucketNum[0] == arr.length) {
+      return;
+    }
+    // 基数升一位继续排序
+    redix(arr, base * 10);
+  }
+}
+
+```
 
 
 
