@@ -2,7 +2,7 @@ package src.Sort;
 
 public class Select {
   public static int[] sort(int[] arr){
-    arr = order(arr);
+    arr = orderSort(arr);
     return arr;
   }
 
@@ -11,9 +11,9 @@ public class Select {
   */
   public static int[] sort(int[] arr, boolean order){
     if(order){
-      arr = order(arr);
+      arr = orderSort(arr);
     }else{
-      arr = reversedOrder(arr);
+      arr = reversedOrderSort(arr);
     }
     return arr;
   }
@@ -23,9 +23,9 @@ public class Select {
   */
   public static int[] sort(int[] arr, int order){
     if(order > 0){
-      arr = order(arr);
+      arr = orderSort(arr);
     }else{
-      arr = reversedOrder(arr);
+      arr = reversedOrderSort(arr);
     }
     return arr;
   }
@@ -33,7 +33,7 @@ public class Select {
 
 
   // 順序
-  public static int[] order(int[] arr){
+  public static int[] orderSort(int[] arr){
     int min;
     int minIndex;
     int temp;
@@ -58,7 +58,7 @@ public class Select {
   }
 
   // 逆序
-  public static int[] reversedOrder(int[] arr){
+  public static int[] reversedOrderSort(int[] arr){
     int max;
     int maxIndex;
     int temp;

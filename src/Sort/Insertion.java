@@ -2,7 +2,7 @@ package src.Sort;
 
 public class Insertion {
   public static int[] sort(int[] arr){
-    arr = order(arr);
+    arr = orderSort(arr);
 
     return arr;
   }
@@ -12,9 +12,9 @@ public class Insertion {
   */
   public static int[] sort(int[] arr, boolean order){
     if(order){
-      arr = order(arr);
+      arr = orderSort(arr);
     }else{
-      arr = reversedOrder(arr);
+      arr = reversedOrderSort(arr);
     }
     return arr;
   }
@@ -24,15 +24,15 @@ public class Insertion {
   */
   public static int[] sort(int[] arr, int order) {
     if(order > 0){
-      arr = order(arr);
+      arr = orderSort(arr);
     }else{
-      arr = reversedOrder(arr);
+      arr = reversedOrderSort(arr);
     }
     return arr;
   }
 
   // 順序
-  public static int[] order(int[] arr){
+  public static int[] orderSort(int[] arr){
     int insertVal;
     int insertIndex;
 
@@ -51,7 +51,7 @@ public class Insertion {
   }
 
   // 逆序
-  public static int[] reversedOrder(int[] arr){
+  public static int[] reversedOrderSort(int[] arr){
     int insertVal;
     int insertIndex;
 

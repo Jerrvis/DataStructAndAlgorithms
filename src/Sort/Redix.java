@@ -2,7 +2,7 @@ package src.Sort;
 
 public class Redix {
   public static int[] sort(int[] arr) {
-    order(arr, 10);
+    orderSort(arr, 10);
     return arr;
   }
 
@@ -11,10 +11,10 @@ public class Redix {
   */
   public static int[] sort(int[] arr, boolean order) {
     if(order){
-      order(arr, 10);
+      orderSort(arr, 10);
       return arr;
     }else{
-      reversedOrder(arr, 10);
+      reversedOrderSort(arr, 10);
       return arr;
     }
   }
@@ -24,10 +24,10 @@ public class Redix {
   */
   public static int[] sort(int[] arr, int order) {
     if(order > 0){
-      order(arr, 10);
+      orderSort(arr, 10);
       return arr;
     }else{
-      reversedOrder(arr, 10);
+      reversedOrderSort(arr, 10);
       return arr;
     }
   }
@@ -37,7 +37,7 @@ public class Redix {
    * @param arr
    * @param base 求个位 base = 10, 求十位 base = 100
    */
-  public static void order(int[] arr, int base) {
+  public static void orderSort(int[] arr, int base) {
     // 10个桶
     int[][] bucket = new int[10][arr.length];
     // 记录每个桶里的数据个数
@@ -66,10 +66,10 @@ public class Redix {
       return;
     }
     // 基数升一位继续排序
-    order(arr, base * 10);
+    orderSort(arr, base * 10);
   }
 
-  public static void reversedOrder(int[] arr, int base) {
+  public static void reversedOrderSort(int[] arr, int base) {
     // 10个桶
     int[][] bucket = new int[10][arr.length];
     // 记录每个桶里的数据个数
@@ -98,6 +98,6 @@ public class Redix {
       return;
     }
     // 基数升一位继续排序
-    reversedOrder(arr, base * 10);
+    reversedOrderSort(arr, base * 10);
   }
 }

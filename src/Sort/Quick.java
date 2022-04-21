@@ -4,7 +4,7 @@ public class Quick {
   public static int[] sort(int[] arr) {
     int left = 0;
     int right = arr.length - 1;
-    arr = order(arr, left, right);
+    arr = orderSort(arr, left, right);
     return arr;
   }
 
@@ -15,9 +15,9 @@ public class Quick {
     int left = 0;
     int right = arr.length - 1;
     if(order){
-      arr = order(arr, left, right);
+      arr = orderSort(arr, left, right);
     }else{
-      arr = reversedOrder(arr, left, right);
+      arr = reversedOrderSort(arr, left, right);
     }
     return arr;
   }
@@ -29,14 +29,14 @@ public class Quick {
     int left = 0;
     int right = arr.length - 1;
     if(order > 0){
-      arr = order(arr, left, right);
+      arr = orderSort(arr, left, right);
     }else{
-      arr = reversedOrder(arr, left, right);
+      arr = reversedOrderSort(arr, left, right);
     }
     return arr;
   }
 
-  public static int[] order(int[] arr, int left, int right) {
+  public static int[] orderSort(int[] arr, int left, int right) {
     int l = left;
     int r = right;
     // 中间值 l为空位
@@ -65,16 +65,16 @@ public class Quick {
 
     if (r > left + 1) {
       // r左边有两个空位时继续排序
-      arr = order(arr, left, r - 1);
+      arr = orderSort(arr, left, r - 1);
     }
     if (r < right - 1) {
       // r右边有两个空位时继续排序
-      arr = order(arr, r + 1, right);
+      arr = orderSort(arr, r + 1, right);
     }
     return arr;
   }
 
-  public static int[] reversedOrder(int[] arr, int left, int right) {
+  public static int[] reversedOrderSort(int[] arr, int left, int right) {
     int l = left;
     int r = right;
     // 中间值 l为空位
@@ -103,11 +103,11 @@ public class Quick {
 
     if (r > left + 1) {
       // r左边有两个空位时继续排序
-      arr = reversedOrder(arr, left, r - 1);
+      arr = reversedOrderSort(arr, left, r - 1);
     }
     if (r < right - 1) {
       // r右边有两个空位时继续排序
-      arr = reversedOrder(arr, r + 1, right);
+      arr = reversedOrderSort(arr, r + 1, right);
     }
     return arr;
   }
